@@ -1,0 +1,177 @@
+.text
+main:
+	addi $s0, $zero, 1 #armazena o valor 1 no registrador s0
+	addi $s1, $zero, 3 #armazena o valor 3 no registrador s1
+	addi $s2, $zero, 4 #armazena o valor 4 no registrador s2
+
+	la $t0, i #carrega o endereco da variavel i no registrador t0
+	sw $s0, 0($t0) #armazena o valor de s0 na variavel i por meio de t0, que tem seu endereco armazenado
+
+	la $t0, j #carrega o endereco da variavel j no registrador t0
+	sw $s1, 0($t0) #armazena o valor de s1 na variavel j por meio de t0, que tem seu endereco armazenado
+
+	la $t0, k #carrega o endereco da variavel k no registrador t0
+	sw $s2, 0($t0)#armazena o valor de s2 na variavel k por meio de t0, que tem seu endereco armazenado
+
+	la $t0, a #passa o endereco do array para o registrador
+	addi $t5, $zero, 4 #constante 4 que sera usada na aritmetica de vetores
+
+
+
+
+	addi $t3, $zero, 1
+	mul $t1, $t3, $t5 #aqui multiplicamos 1 com 4 para obter o endereco do vetor
+	add $t1, $t0, $t1 #somamos o numero do endereco a ser percorrido com o endereco original do vetor
+	addi $t2, $zero, 5 #aqui armazenamos o valor 5 no registrador t2
+	sw $t2, 0($t1) #armazena o valor de t2 em a[1], cujo endereco esta guardado em t1
+
+	addi $t1, $zero, 2 #carregamos o valor 2 no registrador t1
+	mul $t1, $t1, $t5 #multiplicamos 2 por 4 para obter o endereco no vetor
+	add $t1, $t0, $t1 #obtemos o endereco de a[2]
+
+
+
+
+	addi $t4, $zero, 3 #carregamos o valor 3 no registrador t4
+	mul $t4, $t4, $t5 #multiplicamos 3 por 4 para obter o endereco do vetor
+	add $t4, $t0, $t4 #atualizamos o endereco de memoria do vetor para a posicao 3
+	lw $t3, ($t4) #armazenamos o conteudo de a[3] em t3
+
+	addi $t6, $zero, 20 #salvamos o valor 20 no registrador t6
+
+	add $t3, $t3, $t6 #somamos 20 ao valor de a[3], que esta armazenado em $t3
+	sw $t3, 0($t1) #atribuimos a[3] + 20, ou seja, salvamos o conteudo de $t3 em $t1
+
+
+
+
+
+	addi $t1, $zero, 3 #carregamos o valor 3 no registrador t1
+	mul $t1, $t1, $t5 #multiplicamos 3 por 4 para obter o endereco no vetor
+	add $t1, $t0, $t1 #obtemos o endereco de a[3]
+
+	addi $t4, $zero, 4 #carregamos o valor 4 no registrador t4
+	mul $t4, $t4, $t5 #multiplicamos 4 por 4 para obter o endereco do vetor
+	add $t4, $t0, $t4 #atualizamos o endereco de memoria do vetor para a posicao 4
+	lw $t3, ($t4) #armazenamos o conteudo de a[4] em t3
+
+	addi $t6, $zero, 200000 #salvamos o valor 200000 no registrador t6
+
+	add $t3, $t3, $t6 #salvamos a soma do conteudo de $t3 com o conteudo de $t6
+	sw $t3, 0($t1) #armazenamos o conteudo de $t3 em $t1
+
+
+
+
+	addi $t4, $zero, 4 #carregamos o valor 4 no registrador t4
+	mul $t4, $t4, $t5 #multiplicamos 4 por 4 para obter o endereco do vetor
+	add $t1, $t0, $t4 #atualizamos o endereco de memoria do vetor para a posicao 4
+	addi $t6, $zero, 10000 #salvamos o valor 10000 no registrador t6
+	sw $t6, 0($t1) #salvamos o conteudo do registrador t6 em a[4]
+
+
+
+
+	addi $t1, $zero, 5 #carregamos o valor 5 no registrador t1
+	mul $t1, $t1, $t5 #multiplicamos 5 por 4 para obter o endereco no vetor
+	add $t1, $t0, $t1 #obtemos o endereco de a[5]
+
+	addi $t4, $zero, 6 #carregamos o valor 6 no registrador t4
+	mul $t4, $t4, $t5 #multiplicamos 6 por 4 para obter o endereco do vetor
+	add $t4, $t0, $t4 #atualizamos o endereco de memoria do vetor para a posicao 6
+	lw $t3, ($t4) #armazenamos o conteudo de a[6] em t3
+
+	addi $t4, $zero, 7 #carregamos o valor 7 no registrador t4
+	mul $t4, $t4, $t5 #multiplicamos 7 por 4 para obter o endereco do vetor
+	add $t4, $t0, $t4 #atualizamos o endereco de memoria do vetor para a posicao 7
+	lw $t6, ($t4) #armazenamos o conteudo de a[7] em t6
+
+	addi $t4, $zero, 8 #carregamos o valor 8 no registrador t4
+	mul $t4, $t4, $t5 #multiplicamos 8 por 4 para obter o endereco do vetor
+	add $t4, $t0, $t4 #atualizamos o endereco de memoria do vetor para a posicao 8
+	lw $t7, ($t4) #armazenamos o conteudo de a[8] em t7
+
+	add $t3, $t3, $t6 #somamos o conteudo de a[6] e a[7]
+	sub $t3, $t3, $t7 #subtraimos a[8] de (a[6] + a[7])
+	sw $t3, 0($t1) #salvamos o conteudo de $t3 em $t1
+
+
+
+
+	addi $t1, $zero, 6 #carregamos o valor 6 no registrador t1
+	mul $t1, $t1, $t5 #multiplicamos 6 por 4 para obter o endereco no vetor
+	add $t1, $t0, $t1 #obtemos o endereco de a[6]
+
+	addi $t4, $zero, 7 #carregamos o valor 7 no registrador t4
+	mul $t4, $t4, $t5 #multiplicamos 7 por 4 para obter o endereco do vetor
+	add $t4, $t0, $t4 #atualizamos o endereco de memoria do vetor para a posicao 7
+	lw $t6, ($t4) #armazenamos o conteudo de a[7] em t6
+
+	add $t4, $t6, $s0 #somamos a[7] e i
+	sw $t4, 0($t1) #armazenamos a[7] + i em a[6]
+
+
+
+
+	addi $t1, $zero, 7 #carregamos o valor 7 no registrador t1
+	mul $t1, $t1, $t5 #multiplicamos 7 por 4 para obter o endereco no vetor
+	add $t1, $t0, $t1 #obtemos o endereco de a[7]
+
+	addi $t4, $zero, 8 #carregamos o valor 8 no registrador t4
+	mul $t4, $t4, $t5 #multiplicamos 8 por 4 para obter o endereco do vetor
+	add $t4, $t0, $t4 #atualizamos o endereco de memoria do vetor para a posicao 8
+	lw $t6, ($t4) #armazenamos o conteudo de a[8] em t6
+
+	add $t4, $zero, $s0 #carregamos o valor de i no registrador t4
+	mul $t4, $t4, $t5 #multiplicamos ai por 4 para obter o endereco do vetor
+	add $t4, $t0, $t4 #atualizamos o endereco de memoria do vetor para a posicao i
+	lw $t3, ($t4) #armazenamos o conteudo de a[i] em t3
+
+	sub $t6, $t6, $t3 #subtraimos a[i] de a[8]
+	sw $t6, 0($t1) #armazenamos o resultado da subtracao em a[7]
+	
+
+
+
+	add $t1, $zero, $s1 #carregamos o valor de j no registrador t1
+	mul $t1, $t1, $t5 #multiplicamos a[j] por 4 para obter o endereco no vetor
+	add $t1, $t0, $t1 #obtemos o endereco de a[j]
+
+	add $t4, $zero, $s0 #carregamos o valor de i no registrador t4
+	addi $t4, $t4, 2 #somamos 2 ao indice que sera multiplicado
+	mul $t4, $t4, $t5 #multiplicamos a[i+2] por 4 para obter o endereco do vetor
+	add $t4, $t0, $t4 #atualizamos o endereco de memoria do vetor para a posicao a[i + 2]
+	lw $t3, 0($t4) #armazenamos o conteudo de a[i+2] em t3
+
+	sub $t3, $t3, $s0 #subtraimos i de a[i+2]
+	add $t3, $t3, $s1 #adicionamos j ao resultado
+	sw $t3, 0($t1) #armazenamos o resultado em a[j]
+
+
+
+
+	add $t1, $zero, $s2 #carregamos o valor de k no registrador t1
+	mul $t1, $t1, $t5 #multiplicamos a[k] por 4 para obter o endereco no vetor
+	add $t1, $t0, $t1 #obtemos o endereco de a[k]
+
+	add $t4, $zero, $s0 #carregamos o valor de i no registrador t4
+	mul $t4, $t4, $t5 #multiplicamos i por 4 para obter o endereco do vetor
+	add $t4, $t0, $t4 #atualizamos o endereco de memoria do vetor para a posicao a[i]
+	lw $t6, ($t4) #armazenamos o conteudo de a[i] em t6
+
+	add $t4, $zero, $t6 #carregamos o valor de a[i] no registrador t4
+	mul $t4, $t4, $t5 #multiplicamos a[i] por 4 para obter o endereco do vetor
+	add $t4, $t0, $t4 #atualizamos o endereco de memoria do vetor para a posicao a[a[i]]
+	lw $t3, ($t4) #armazenamos o conteudo de a[a[i]] em t3
+
+	sw $t3, 0($t1) #armazenamos o conteudo de $t3 em $t1
+
+
+
+.data
+a: .word 0,1,2,3,4,5,6,7,8,9 #declaracao do vetor a: int a[10]={0,1,2,3,4,5,6,7,8,9};
+i: .space 4 #int i
+j: .space 4 #int j
+k: .space 4 #int k
+##por se tratar de inteiros, utilizamos 4 como espaco. Por esse mesmo motivo, utiliza-se 4 na multiplicacao dos enderecos dos vetores.
+#fim da declaracao das variaveis globais

@@ -1,0 +1,226 @@
+.text
+main:
+
+
+
+
+	addi $s0, $zero, 1 #colocamos o valor 1 em s0
+	la $t0, i #carregamos o endereco de i em t0
+	sw $s0, 0($t0) #armazenamos o valor 1
+
+	j abc #pulamos para abc----->goto abc
+
+
+def:
+
+	addi $s1, $zero, 1 #colocamos o valor 1 em $s1
+	la $t0, j #armazenamos o endereco de j em $t0
+	sw $s1, 0($t0) #armazenamos o valor 1
+
+
+
+
+
+
+	addi $s2, $zero, 4 #colocamos o valor 4 em $s1
+	la $t0, k #carregamos o endereco de k em $t0
+	sw $s2, 0($t0) #armazenamos o valor 4
+
+
+
+
+	j ghi #pulamos para ghi ----> goto ghi
+	
+
+
+
+	addi $s0, $zero, 2 #colocamos o valor 2 em  $s0
+	la $t0, i #carregamos o endereco de k em $t0
+	sw $s0, 0($t0) #armazenamos o valor 2
+
+
+abc:
+	j def #pulamos para def ----> goto def
+
+ghi:
+
+
+
+
+	###auxiliar do programa
+	addi $t5, $zero, 4 #o registrador t5 fica inalterado todo o programa para que seja possivel multiplicar por 4 utilizando ele.
+	la $t0, a #carrega o endereco base do vetor a em t0, ele sera utilizado durante todo o ghi
+	################
+	
+	
+	
+
+
+
+	beq $s0, $s1, i_igual_j_verdadeiro ## if (i == j)
+
+i_igual_j_falso: #se a condicao for falsa
+
+	addi $t1, $zero, 2 #carregamos o valor 2 no registrador t1
+	mul $t1, $t1, $t5 #multiplicamos 2 por 4 para obter o endereco no vetor
+	add $t1, $t0, $t1 #obtemos o endereco de a[2]
+
+	addi $t4, $zero, 4 #carregamos o valor 4 no registrador t4
+	mul $t4, $t4, $t5 #multiplicamos 4 por 4 para obter o endereco do vetor
+	add $t4, $t0, $t4 #atualizamos o endereco de memoria do vetor para a posicao 4
+	lw $t3, ($t4) #armazenamos o conteudo de a[4] em t3
+
+	sw $t3, 0($t1) #atribuimos o conteudo de a[4] a a[2]
+	j fim_beq #pula para o fim do if
+
+
+i_igual_j_verdadeiro:#se a condicao for verdadeira
+
+
+	addi $t1, $zero, 2 #carregamos o valor 2 no registrador t1
+	mul $t1, $t1, $t5 #multiplicamos 2 por 4 para obter o endereco no vetor
+	add $t1, $t0, $t1 #obtemos o endereco de a[2]
+
+	addi $t4, $zero, 3 #carregamos o valor 3 no registrador t4
+	mul $t4, $t4, $t5 #multiplicamos 3 por 4 para obter o endereco do vetor
+	add $t4, $t0, $t4 #atualizamos o endereco de memoria do vetor para a posicao 3
+	lw $t3, ($t4) #armazenamos o conteudo de a[3] em t3
+
+	sw $t3, 0($t1) #atribuimos o conteudo de a[3] a a[2]
+	j fim_beq #pula para o fim do if
+
+
+fim_beq:
+
+
+
+
+
+
+
+
+
+
+
+
+inicio_while:
+	j testa_while
+executa_while:
+
+	add $t1, $zero, $s2 #carregamos o valor de k no registrador t1
+	mul $t1, $t1, $t5 #multiplicamos a[k] por 4 para obter o endereco no vetor
+	add $t1, $t0, $t1 #obtemos o endereco de a[k]
+
+	addi $t2, $zero, 7 #armazenamos o valor 7 no registrador t2
+
+	sw $t2, 0($t1) #armazenamos 7 em a[k]
+
+
+
+
+	addi $t1, $zero, 1 #carregamos o valor 1
+	sub $s2, $s2, $t1 #subtraimos 1 do valor de k
+	la $t3, k #carregamos o endereco de k
+	sw $s2, 0($t3) #armazenamos o novo valor de k
+	j inicio_while
+
+testa_while:
+	bgtz $s2, executa_while #testa se k > 0 e pula para a execucao se for verdadeiro
+	j fim_while #sai do loop
+fim_while:
+
+
+
+
+
+
+
+
+
+
+
+if1cond1:
+	bgt $s0, $s2, if1cond2 #se i > k, testa proxima condicao, senao sai do if
+	j fimif
+if1cond2:
+	blt $s0, 10, if2cond1 #se i < 10, entra no if, senao sai
+	j fimif
+
+	if2cond1: 
+		beq $s2, 6, if2verdadeiro #se k == 6, entra no if, senao testa o proximo valor
+	if2cond2:
+		bge $s1, $s0, if2verdadeiro #se j >= i, entra no if
+		j if2falso #senao, cai no else
+	if2verdadeiro:
+
+		addi $t4, $zero, 9 #carregamos o valor 9 no registrador t4
+		mul $t4, $t4, $t5 #multiplicamos 9 por 4 para obter o endereco do vetor
+		add $t1, $t0, $t4 #atualizamos o endereco de memoria do vetor para a posicao 9
+		addi $t6, $zero, 400 #salvamos o valor 400 no registrador t6
+		sw $t6, 0($t1) #salvamos o conteudo do registrador t6 em a[9]
+		j fimif
+	if2falso:
+
+		addi $t4, $zero, 9 #carregamos o valor 9 no registrador t4
+		mul $t4, $t4, $t5 #multiplicamos 9 por 4 para obter o endereco do vetor
+		add $t1, $t0, $t4 #atualizamos o endereco de memoria do vetor para a posicao 9
+		addi $t6, $zero, 500 #salvamos o valor 500 no registrador t6
+		sw $t6, 0($t1) #salvamos o conteudo do registrador t6 em a[9]
+
+fimif:
+
+
+
+
+
+
+	beq $s1, 0, case0
+	beq $s1, 1, case1
+	beq $s1, 2, case2
+	beq $s1, 3, case3
+	j fim_switch
+case0:
+	#case 0: a[6] = 4; break
+	addi $t4, $zero, 6 #carregamos o valor 6 no registrador t4
+	mul $t4, $t4, $t5 #multiplicamos 6 por 4 para obter o endereco do vetor
+	add $t1, $t0, $t4 #atualizamos o endereco de memoria do vetor para a posicao 6
+	addi $t6, $zero, 4 #salvamos o valor 4 no registrador t6
+	sw $t6, 0($t1) #salvamos o conteudo do registrador t6 em a[6]	
+	j fim_switch
+case1:
+	#case 1: a[6] = 5; break
+	addi $t4, $zero, 6 #carregamos o valor 6 no registrador t4
+	mul $t4, $t4, $t5 #multiplicamos 6 por 4 para obter o endereco do vetor
+	add $t1, $t0, $t4 #atualizamos o endereco de memoria do vetor para a posicao 6
+	addi $t6, $zero, 5 #salvamos o valor 5 no registrador t6
+	sw $t6, 0($t1) #salvamos o conteudo do registrador t6 em a[6]	
+	j fim_switch
+case2:
+	#case 2: a[6] = 6; break
+	addi $t4, $zero, 6 #carregamos o valor 6 no registrador t4
+	mul $t4, $t4, $t5 #multiplicamos 6 por 4 para obter o endereco do vetor
+	add $t1, $t0, $t4 #atualizamos o endereco de memoria do vetor para a posicao 6
+	addi $t6, $zero, 6 #salvamos o valor 6 no registrador t6
+	sw $t6, 0($t1) #salvamos o conteudo do registrador t6 em a[6]	
+	j fim_switch
+case3:
+	#case 3: a[6] = 7; break
+	addi $t4, $zero, 6 #carregamos o valor 6 no registrador t4
+	mul $t4, $t4, $t5 #multiplicamos 6 por 4 para obter o endereco do vetor
+	add $t1, $t0, $t4 #atualizamos o endereco de memoria do vetor para a posicao 6
+	addi $t6, $zero, 7 #salvamos o valor 7 no registrador t6
+	sw $t6, 0($t1) #salvamos o conteudo do registrador t6 em a[6]	
+fim_switch:
+
+
+
+
+
+
+
+
+.data
+a: .word 0,1,2,3,4,5,6,7,8,9 #int a[10]
+i: .space 4 #int i
+j: .space 4 #int j
+k: .space 4 #int k

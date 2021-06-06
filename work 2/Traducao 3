@@ -1,0 +1,226 @@
+.text
+main:
+
+	
+	la $t0, i #carregamos o endereco da variavel i em t0
+	addi $s0, $zero, 1 #atribuimos 1 ao valor de s0
+	sw $s0, 0($t0) #salvamos o valor 1 na variavel
+	
+
+	
+	
+	
+
+
+	la $t0, j #carregamos o endereco da variavel j em t0
+	addi $s1, $zero, 2 #atribuimos 2 ao valor de s1
+	sw $s1, 0($t0) #salvamos o valor na variavel
+	
+	
+	
+
+	la $t0, k #carregamos o endereco da variavel k em t0
+	addi $s2, $zero, 4 #atribuimos 4 ao valor de s2
+	sw $s2, 0($t0) #salvamos o valor na variavel
+	
+
+
+
+
+	la $t0, a #carrega o endereco de memoria do vetor no t0
+	#esse registrador sera sempre usado como endereco base do vetor
+	addi $t5, $zero, 4 #o registrador t5 sera usado como constante de valor 4 para obter a posicao do vetor.
+
+	
+
+inicializa_for1:
+	la $t1, i #carregamos o endereco da variavel i em t0
+	addi $s0, $zero, 0 #atribuimos 0 ao valor de s0
+	sw $s0, 0($t1) #salvamos o valor 0 na variavel
+	j verifica_for1 #pula para a verificacao
+
+for_verdadeiro1:
+	
+
+	add $t4, $zero, $s0 #carregamos o valor de i no registrador t4
+	mul $t4, $t4, $t5 #multiplicamos i por 4 para obter o endereco do vetor
+	add $t4, $t0, $t4 #atualizamos o endereco de memoria do vetor para a posicao a[i]
+	lw $t3, ($t4) #armazenamos o conteudo de a[i] em t3
+	addi $t3, $t3, 3 #somamos 3 ao valor de a[i]
+	sw $t3, 0($t4) #armazenamos a[i] + 3 em a[i]
+
+	addi $s0, $s0, 1 #soma 1 ao valor de i
+	sw $s0, 0($t1) #armazenamos o novo valor de i
+
+	
+
+
+verifica_for1:
+	
+
+
+	blt $s0, 10, for_verdadeiro1 #pula para a execucao do for se i < 10
+	j fim_for1 #pula para o fim do for
+
+fim_for1:
+
+
+
+
+
+
+
+
+
+
+
+inicializa_for2_1:
+	la $t1, i #carregamos o endereco da variavel i em t0
+	addi $s0, $zero, 0 #atribuimos 0 ao valor de s0
+	sw $s0, 0($t1) #salvamos o valor 0 na variavel
+	j verifica_for2_1 #pula para a verificacao
+
+for_verdadeiro2_1:
+	
+	inicializa_for2_2:
+		la $t2, j #carregamos o endereco da variavel j em t2
+		add $s1, $zero, $s0 #atribuimos 0 ao valor de s1
+		sw $s1, 0($t2) #salvamos o valor 0 na variavel
+		j verifica_for2_2 #pula para a verificacao
+
+	for_verdadeiro2_2:
+	
+
+		la $t6, acc #carrega o endereco de acc em t6
+		mul $t3, $t5, $s1 #multiplica o valor de j por 4
+		add $t3, $t0, $t3 #soma o deslocamento ao endereco base do vetor
+		lw $t4, 0($t3) #carrega o conteudo de $t3 em $t4
+		lw $t7, 0($t6) #carrega o conteudo de $t6 em $t7
+		add $t4, $t4, $t7 #soma o conteudo de ambos
+		sw $t4, 0($t6) #armazena o conteudo na variavel acc
+	
+	
+
+		addi $s1, $s1, 1 #soma 1 ao valor de s1
+		sw $s1, 0($t2) #armazenamos o novo valor de i
+
+
+
+	verifica_for2_2:
+	
+
+
+		blt $s1, 10, for_verdadeiro2_2 #pula para a execucao do for se j < 10
+		j fim_for2_2 #pula para o fim do for
+
+	fim_for2_2:
+	
+	
+
+	addi $s0, $s0, 1
+	sw $s0, 0($t1) #armazenamos o novo valor de i
+
+	
+
+
+verifica_for2_1:
+	
+
+
+	blt $s0, 10, for_verdadeiro2_1 #pula para a execucao do for se i < 10
+	j fim_for2_1
+	
+
+
+fim_for2_1:
+
+
+	la $t2, acc #carrega o endereco de acc
+	mul $t1, $t5, 6 #multiplica 4 por 6 para obter o deslocamento do vetor
+	add $t1, $t0, $t1 #soma o deslocamento ao endereco base do vetor
+	lw $t3, 0($t2) #carrega o valor de acc em $t3
+	sw $t3, 0($t1) #armazena o valor de $t3 em a[6]
+
+
+
+
+
+
+
+
+
+
+inicio_while:
+	j testa_while #pula para o teste do while
+instrucoes_while:
+
+	mul $t1, $t5, $s2 # atribui 4*k ao registrador t1
+	add $t1, $t0, $t1 #soma o deslocamento ao endereco base do vetor
+	lw $t2, 0($t1) #carrega o valor de a[k] no registrador t2
+	addi $t2, $t2, 10 #soma 10 ao valor de a[k]
+	sw $t2, 0($t1) #armazena a[k] + 10 em a[k]
+	j inicio_while
+
+testa_while:
+	mul $t1, $t5, $s2 #atribui 4*k ao registrador t1
+	add $t1, $t0, $t1 #soma o endereco de pulo necessario ao endereco base do vetor
+	lw $t3, 0($t1) #carrega o conteudo de a[k] em $t3
+	la $t7, acc #carrega o endereco de acc
+	lw $s3, 0($t7) #carrega o conteudo de acc em $s3
+	blt $t3, $s3, instrucoes_while #pula para o while se a[k] < acc
+	j fim_while
+fim_while:
+
+
+
+
+
+
+
+
+	
+	
+inicio_do_while:
+	j instrucoes_do_while #pula para o teste do while
+instrucoes_do_while:
+
+	add $t3, $zero, $s2 #atribui o valor de k ao registrador t3
+	mul $t3, $t5, $t3 #multiplica k por 4 para obter o deslocamento
+	add $t3,  $t3, $t0 #soma o deslocamento ao endereco base do vetor
+	lw $t2, 0($t3) #armazena no registrador t2 o conteudo de a[k]
+	addi $t2, $t2, 1 #armazena no registrador t2 a[k] + 1
+	
+	
+	addi $t4, $zero, 7 #armazena o valor 7 no registrador t4
+	mul $t4, $t5, $t4 #multiplica 7 por 4 para obter o deslocamento
+	add $t4, $t0, $t4 #soma o deslocamento ao endereco base do vetor
+	sw $t2, 0($t4) #armazena no endereco contido em t4 a[k] + 1
+	
+
+
+
+	j testa_do_while
+
+testa_do_while:
+	addi $t4, $zero, 7 #atribui 7 ao registrador t4
+	mul $t4, $t5, $t4 #multiplica 7 por 4 para obter o deslocamento
+	add $t4, $t0, $t4 #soma o endereco base do vetor ao deslocamento
+	lw $t3, 0($t4) #armazena no registrador t3 o conteudo de a[7]
+	
+	addi $t4, $zero, 8 #atribui 8 ao registrador t3
+	mul $t4, $t5, $t4 #multiplica 8 por 4 para obter o deslocamento
+	add $t4, $t0, $t4 #soma o endereco base ao deslocamento
+	lw $t2, 0($t4) #carrega o valor de a[8] no registrador t2
+	
+	blt $t3, $t2, inicio_do_while #pula para o while se a[7] < a[8]
+
+	j fim_do_while
+fim_do_while:
+
+
+.data
+a: .word 0,1,2,3,4,5,6,7,8,9
+i: .space 4
+j: .space 4
+k: .space 4
+acc: .word 0

@@ -1,0 +1,93 @@
+.text
+main:
+	#chamada de print da mensagem
+	 la $a0, ler_razao #carregamos o endereco da variavel ler_razao
+	addi $v0, $zero, 4 #atribuimos o comando 4, para mandar o sistema printar o conteudo de $a0 como string
+	syscall #efetuamos a chamada do sistema
+	
+	#chamada de leitura da mensagem
+	addi $v0, $zero, 5 #informamos ao sistema o comando 5 para que leia na proxima chamada
+	syscall #efetuamos a chamada do sistema
+	la $t0, q #carregamos o endereco de r
+	sw $v0, 0($t0) #o conteudo da leitura vai para v0, entao o salvamos na variavel
+	
+	
+	
+	#chamada de print da mensagem
+	 la $a0, ler_num_termos #carregamos o endereco da variavel ler_razao
+	addi $v0, $zero, 4 #atribuimos o comando 4, para mandar o sistema printar o conteudo de $a0 como string
+	syscall #efetuamos a chamada do sistema
+	
+	#chamada de leitura da mensagem
+	addi $v0, $zero, 5 #informamos ao sistema o comando 5 para que leia na proxima chamada
+	syscall #efetuamos a chamada do sistema
+	la $t0, n #carregamos o endereco de n
+	sw $v0, 0($t0) #o conteudo da leitura vai para v0, entao o salvamos na variavel
+	
+	
+	
+	la $t0, q #carregamos o endereco na variavel q
+	lw $t1, 0($t0) #carregamos o conteudo da variavel r no registrador t1
+	
+	la $t0, n #carregamos o endereco da variavel n
+	lw $t2, 0($t0) #carregamos o conteudo da variavel n no registrador t2
+	
+	
+	#OBSERVACAO: Como nao foi solicitada a leitura do a1, o primeiro elemento da progressao,
+	#este sera considerado como igual a 1.
+	add $t6, $t2, $zero #sera usado o registrador t6 como auxiliar para que o valor de n nao seja alterado em t2
+	addi $t7, $zero, 1 #t7 sera utilizado como a1 = 1.
+	
+	la $a0, printar_progressao #carregamos o endereço da string printar progressao
+	addi $v0, $zero, 4 #informamos ao sistema que o proximo comando e printar string
+	syscall #efetuamos a chamada do sisetma
+	
+inicio_while:
+	j testa_while
+
+executa_while:
+
+	add $a0, $zero, $t7 #carregamos o an no registrador que guarda o inteiro a ser printado
+	addi $v0, $zero, 1 #informamos ao sistema que o proximo syscall sera um print de inteiros
+	syscall #chamamos o sistema
+	
+	la $a0, aux_formatacao #carregamos o endereco do auxiliar de formatacao
+	addi $v0, $zero, 4 #informamos ao sistema que o proximo print sera de strings
+	syscall #chamamos o sistema
+	
+	
+	mul $t7, $t7, $t1 #multiplica o valor atual da progressao pela razao
+	sub $t6, $t6, 1 #subtrai 1 do numero de vezes que ainda falta ser multiplicado
+
+testa_while:
+	bgt $t6, 0, executa_while #pula para a execucao do while
+	
+fim_while:
+	
+	la $a0, printar_valores_inseridos #inserimos no registrador t0 o endereco da string
+	add $v0, $zero,  4 #inserimos no registrador que guarda o comando que o proximo comando sera printar string
+	syscall #chamamos o sistema
+	
+	add $a0, $zero, $t1 #carregamos o conteudo de q no registrador que guarda o que sera printado
+	addi $v0, $zero, 1 #informamos ao sistema que a proxima chamada sera um print de inteiros
+	syscall #efetuamos a chamada do sistema
+	
+	la $a0, aux_formatacao #carregamos o endereco do auxiliar de formatacao
+	addi $v0, $zero, 4 #informamos ao sistema que a proxima chamada sera um print de string
+	syscall #chamamos o sistema
+	
+	add $a0, $zero, $t2 #carregamos o valor de n no registrador
+	addi $v0, $zero, 1 #informamos ao sistema que a proxima chamada sera um print de inteiro
+	syscall #chamamos o sistema
+	
+	
+	
+.data
+an:  .space 4
+q:  .space 4
+n:  .space 4
+ler_razao: .asciiz "Entre a razao da progressao: "
+ler_num_termos: .asciiz "Entre o numero de termos da progressao: "
+printar_progressao: .asciiz "Os termos da progressao sao, respectivamente: "
+aux_formatacao: .asciiz ", "
+printar_valores_inseridos: .asciiz "\nA razao e o numero de termos sao, respectivamente: "

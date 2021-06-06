@@ -1,0 +1,78 @@
+.text
+main:
+	#chamada de print da mensagem
+	 la $a0, ler_razao #carregamos o endereco da variavel ler_razao
+	addi $v0, $zero, 4 #atribuimos o comando 4, para mandar o sistema printar o conteudo de $a0 como string
+	syscall #efetuamos a chamada do sistema
+	
+	#chamada de leitura da mensagem
+	addi $v0, $zero, 5 #informamos ao sistema o comando 5 para que leia na proxima chamada
+	syscall #efetuamos a chamada do sistema
+	la $t0, r #carregamos o endereco de r
+	sw $v0, 0($t0) #o conteudo da leitura vai para v0, entao o salvamos na variavel
+	
+	
+	
+	#chamada de print da mensagem
+	 la $a0, ler_num_termos #carregamos o endereco da variavel ler_razao
+	addi $v0, $zero, 4 #atribuimos o comando 4, para mandar o sistema printar o conteudo de $a0 como string
+	syscall #efetuamos a chamada do sistema
+	
+	#chamada de leitura da mensagem
+	addi $v0, $zero, 5 #informamos ao sistema o comando 5 para que leia na proxima chamada
+	syscall #efetuamos a chamada do sistema
+	la $t0, n #carregamos o endereco de n
+	addi $v0, $v0, -1 #subtraimos 1 do numero de termos pois o a0 ja esta definido
+	sw $v0, 0($t0) #o conteudo da leitura vai para v0, entao o salvamos na variavel
+	
+	
+	
+	la $t0, r #carregamos o endereco na variavel r
+	lw $t1, 0($t0) #carregamos o conteudo da variavel r no registrador t1
+	
+	la $t0, n #carregamos o endereco da variavel n
+	lw $t2, 0($t0) #carregamos o conteudo da variavel n no registrador t2
+	
+	mul $t3, $t1, $t2 #multiplicamos os dois valores para obter o resultado
+	la $t0, an #carregamos o endereco de an
+	sw $t3, 0($t0) #armazenamos o conteudo de t3 em an
+	
+	
+	la $a0, printar_resultados #carregamos o endereço da string printar resultados
+	addi $v0, $zero, 4 #informamos ao sistema que o proximo comando e printar string
+	syscall #efetuamos a chamada do sisetma
+	
+	add $a0, $zero, $t1 #carregamos o conteudo de r no registrador que guarda o que sera printado
+	addi $v0, $zero, 1 #informamos ao sistema que a proxima chamada sera um print de inteiros
+	syscall #efetuamos a chamada do sistema
+	
+	la $a0, aux_formatacao #carregamos o endereco do auxiliar de formatacao
+	addi $v0, $zero, 4 #informamos ao sistema que a proxima chamada sera um print de string
+	syscall #chamamos o sistema
+	
+	add $a0, $zero, $t2 #carregamos o valor de n no registrador
+	addi $a0, $a0, 1 #adiciona 1 ao valor da variavel para considerar o a0 como primeiro termo
+	addi $v0, $zero, 1 #informamos ao sistema que a proxima chamada sera um print de inteiro
+	syscall #chamamos o sistema
+	
+	la $a0, aux_formatacao #carregamos o endereco do auxiliar de formatacao
+	addi $v0, $zero, 4 #informamos ao sistema que o proximo print sera de strings
+	syscall #chamamos o sistema
+	
+	add $a0, $zero, $t3 #carregamos o an no registrador que printa o inteiro
+	addi $v0, $zero, 1 #informamos ao sistema que o proximo syscall sera um print de inteiros
+	syscall #chamamos o sistema
+	
+	
+	
+	
+	
+	
+.data
+an:  .space 4
+r:  .space 4
+n:  .space 4
+ler_razao: .asciiz "Entre a razao da progressao: "
+ler_num_termos: .asciiz "Entre o numero de termos da progressao: "
+printar_resultados: .asciiz "A razao, o numero de termos e o an da progressao sao, respectivamente: "
+aux_formatacao: .asciiz ", "
